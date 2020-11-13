@@ -51,7 +51,7 @@ folder_gen () {
     if [[ ! -e "/pg/pgclone" ]]; then
         mkdir -p /pg/pgclone
         chown 1000:1000 /pg/pgclone
-        chmod 0775 /pg/pgclone; fi
+        chmod 0775 /pg/pgclone
         echo "Generated Folder: /pg/pgclone"
     else
         while true; do
