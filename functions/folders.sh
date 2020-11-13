@@ -26,4 +26,3 @@ make_folders () {
         fcreate /pg/unity
     fi
 }
-make_folders
