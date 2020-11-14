@@ -64,9 +64,10 @@ folder_gen () {
         while true; do
             if [[ -z $overwrite ]]; then
             echo -e ""
-            echo -e "\e[93m**********************************************************************\e[0m"
+            echo -e "\e[93m*****************************************************\e[0m"
             echo -e ""
-            read -p "${PGBLITZ_DIR} exists. Overwrite? (\e[93mCaution: All data will be lost!\e[0m) [Y/n] " overwrite
+            echo -e "The install directory of ${PGBLITZ_DIR} already exists."
+            read -p "Overwrite? (Caution: All data will be lost!) [Y/n] " overwrite
             fi
             case $overwrite in
                 [Yy]* ) rm -r /${PGBLITZ_DIR}
@@ -77,7 +78,7 @@ folder_gen () {
                     break
                     ;;
                 [Nn]* ) echo "User aborted."
-                    echo
+                    echo -e ""
                     echo -e "\e[31mTip: To change the install directory from the default /pg/pgclone"
                     echo -e "set the PGBLITZ_DIR variable to the location of your choosing. eg:\e[0m"
                     echo "PGBLITZ_DIR=\"/my/dir\" bash install.sh"
