@@ -6,6 +6,12 @@
 # GNU:        General Public License v3.0
 ################################################################################
 
+export standalone=1
+export PGBLITZ_DIR=/pg/pgclone
+
+################################################################################
+
+# Install required software and make Python 3's pip (pip3) default
 software () {
     apt-get update && \
     apt-get install -y --reinstall \
@@ -47,26 +53,31 @@ software () {
   echo "nocows = 1" >> /etc/ansible/ansible.cfg
 }
 
+# Create necessary folders, based on PGBLITZ_DIR value
 folder_gen () {
-    if [[ ! -e "/pg/pgclone" ]]; then
-        mkdir -p /pg/pgclone
-        chown 1000:1000 /pg/pgclone
-        chmod 0775 /pg/pgclone
-        echo "Generated Folder: /pg/pgclone"
+    if [[ ! -e ${PGBLITZ_DIR} ]]; then
+        mkdir -p ${PGBLITZ_DIR}
+        chown 1000:1000 ${PGBLITZ_DIR}
+        chmod 0775 ${PGBLITZ_DIR}
+        echo "Generated Folder: ${PGBLITZ_DIR}"
     else
         while true; do
             if [[ -z $overwrite ]]; then
-            read -p "/pg/pgclone exists. Overwrite? (Caution: All data will be lost!) [Y/n] " overwrite
+            read -p "${PGBLITZ_DIR} exists. Overwrite? (Caution: All data will be lost!) [Y/n] " overwrite
             fi
             case $overwrite in
-                [Yy]* ) rm -r /pg/pgclone
-                    mkdir -p /pg/pgclone
-                    chown 1000:1000 /pg/pgclone
-                    chmod 0775 /pg/pgclone
+                [Yy]* ) rm -r /${PGBLITZ_DIR}
+                    mkdir -p ${PGBLITZ_DIR}
+                    chown 1000:1000 ${PGBLITZ_DIR}
+                    chmod 0775 ${PGBLITZ_DIR}
                     echo "Generated Folder: /pg/pgclone"
                     break
                     ;;
                 [Nn]* ) echo "User aborted."
+                    echo
+                    echo -e "\e[31mTip: To change the install directory from the default /pg/pgclone"
+                    echo -e "set the PGBLITZ_DIR variable to the location of your choosing. eg:\e[0m"
+                    echo "PGBLITZ_DIR=\"/my/dir\" bash install.sh"
                     exit 1
                     ;;
                 * ) echo -e "\e[31mInvalid input:\e[0m $overwrite."
@@ -77,15 +88,15 @@ folder_gen () {
         done
     fi
 }
+
+# Clone the git environment
 git_environment () {
-    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git /pg/pgclone
-    export standalone=1
-    export PGBLITZ_DIR=/pg/rclone
+    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_DIR}
 }
 
+# Execute
 software
 folder_gen
 git_environment
-cd /pg/pgclone
-exec /pg/pgclone/pgclone.sh
+( cd ${PGBLITZ_DIR} && . ${PGBLITZ_DIR}/pgclone.sh )
 exit 0
