@@ -24,6 +24,7 @@ make_folders () {
         fcreate /pg/sd
         fcreate /pg/transfer
         fcreate /pg/transport
-        fcreate /pg/unity
+        fcreate ${PGBLITZ_DIR}/rclone
+        fcreate ${PGBLITZ_DIR}/var
     fi
 }
