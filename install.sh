@@ -70,14 +70,15 @@ folder_gen () {
             read -p "Overwrite? (Caution: All data will be lost!) [Y/n] " overwrite
             fi
             case $overwrite in
-                [Yy]* ) rm -r /${PGBLITZ_DIR}
+                [Yy]* ) rm -r ${PGBLITZ_DIR}
                     mkdir -p ${PGBLITZ_DIR}
                     chown 1000:1000 ${PGBLITZ_DIR}
                     chmod 0775 ${PGBLITZ_DIR}
-                    echo "Generated Folder: /pg/pgclone"
+                    echo "Generated Folder: ${PGBLITZ_DIR}"
                     break
                     ;;
-                [Nn]* ) echo "User aborted."
+                [Nn]* ) echo -e ""
+                    echo "User aborted."
                     echo -e ""
                     echo -e "\e[31mTip: To change the install directory from the default /pg/pgclone"
                     echo -e "set the PGBLITZ_DIR variable to the location of your choosing. eg:\e[0m"
@@ -91,16 +92,42 @@ folder_gen () {
             esac
         done
     fi
+    unset overwrite
+    if [[ ! -e ${PGBLITZ_DIR}-src ]]; then
+        while true; do
+            if [[ -z $overwrite ]]; then
+            echo -e ""
+            echo -e "\e[93m**********************************************************************\e[0m"
+            echo -e ""
+            echo -e "The source code directory of ${PGBLITZ_DIR}-src already exists."
+            read -p "Overwrite? (Caution: Source will be reverted to current v10 branch) [Y/n] " overwrite
+            fi
+            case $overwrite in
+                [Yy]* ) rm -r ${PGBLITZ_DIR}-src
+                    break
+                    ;;
+                [Nn]* ) echo -e ""
+                    echo "User aborted."
+                    echo -e ""
+                    exit 1
+                    ;;
+                * ) echo -e "\e[31mInvalid input:\e[0m $overwrite."
+                    echo "Please answer \"y\" for yes or \"n\" for no."
+                    unset overwrite
+                    ;;
+            esac
+        done
+    fi
 }
 
 # Clone the git environment
 git_environment () {
-    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_DIR}
+    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_DIR}-src
 }
 
 # Execute
 software
 folder_gen
 git_environment
-( cd ${PGBLITZ_DIR} && . ${PGBLITZ_DIR}/pgclone.sh )
+( cd ${PGBLITZ_DIR}-src && . ${PGBLITZ_DIR}-src/pgclone.sh )
 exit 0

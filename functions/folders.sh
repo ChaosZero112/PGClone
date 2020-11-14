@@ -16,6 +16,7 @@ make_folders () {
         echo "Generated Folder: $1"
   }
     if [ $standalone == 1 ]; then
+        fcreate /pg
         fcreate /pg/logs
         fcreate /pg/gc
         fcreate /pg/gd
