@@ -93,7 +93,7 @@ folder_gen () {
         done
     fi
     unset overwrite
-    if [[ ! -e ${PGBLITZ_DIR}-src ]]; then
+    if [[ -e ${PGBLITZ_DIR}-src ]]; then
         while true; do
             if [[ -z $overwrite ]]; then
             echo -e ""
@@ -118,6 +118,7 @@ folder_gen () {
             esac
         done
     fi
+    unset overwrite
 }
 
 # Clone the git environment
