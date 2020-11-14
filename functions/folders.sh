@@ -15,7 +15,7 @@ make_folders () {
         chmod 0775 "$1"; fi
         echo "Generated Folder: $1"
   }
-    if [ -z $standalone ]; then
+    if [ $standalone == 1 ]; then
         fcreate /pg/logs
         fcreate /pg/gc
         fcreate /pg/gd

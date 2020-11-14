@@ -10,7 +10,7 @@
   gather_facts: false
   tasks:
     - name: include PGClone aliases
-      include_tasks: '${PGBLITZ_DIR}/ymls/alias.yml'
+      include_tasks: '${PGBLITZ_DIR}/ansible/alias.yml'
 
     - debug: msg="PGBlitz Type - {{transport}}"
     - debug: msg="HD Path - {{hdpath}}"

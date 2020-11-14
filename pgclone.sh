@@ -13,7 +13,7 @@ set_location () {
         export PGBLITZ_DIR=/${PGBLITZ_DIR}
         mkdir -p $PGBLITZ_DIR
     else
-        export PGBLITZ_DIR=$(pwd)
+        export PGBLITZ_DIR=/pg/pgclone
         mkdir -p $PGBLITZ_DIR
     fi
 }

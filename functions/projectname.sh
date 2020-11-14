@@ -279,7 +279,7 @@ docker rm jellyfin 1>/dev/null 2>&1
 docker rm plex 1>/dev/null 2>&1
 docker rm emby 1>/dev/null 2>&1
 
-ansible-playbook ${PGBLITZ_DIR}/ymls/remove.yml
+ansible-playbook ${PGBLITZ_DIR}/ansible/remove.yml
 tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

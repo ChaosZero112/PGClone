@@ -17,12 +17,12 @@ rm -rf  ${PGBLITZ_DIR}/rclone/deployed.version
 pgclonevars
 
 # to remove all service running prior to ensure a clean launch
-ansible-playbook ${PGBLITZ_DIR}/ymls/remove.yml
+ansible-playbook ${PGBLITZ_DIR}/ansible/remove.yml
 
 ########################################################### GDRIVE START
 echo "gd" > ${PGBLITZ_DIR}/rclone/deployed.version
 type=gd
-ansible-playbook ${PGBLITZ_DIR}/ymls/mount.yml -e "\
+ansible-playbook ${PGBLITZ_DIR}/ansible/mount.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -37,7 +37,7 @@ if [[ "$transport" == "gc" || "$transport" == "sc" || "$transport" == "sd" ]]; t
 type=sd
 echo "sd" > ${PGBLITZ_DIR}/rclone/deployed.version
 encryptbit=""
-ansible-playbook ${PGBLITZ_DIR}/ymls/mount.yml -e "\
+ansible-playbook ${PGBLITZ_DIR}/ansible/mount.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -53,7 +53,7 @@ fi
 if [[ "$transport" == "gc" || "$transport" == "sc" ]]; then
 echo "gc" > ${PGBLITZ_DIR}/rclone/deployed.version
 type=gc
-ansible-playbook ${PGBLITZ_DIR}/ymls/crypt.yml -e "\
+ansible-playbook ${PGBLITZ_DIR}/ansible/crypt.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -67,7 +67,7 @@ if [[ "$transport" == "sc" ]]; then
 echo "sc" > ${PGBLITZ_DIR}/rclone/deployed.version
 type=sc
 encryptbit="C"
-ansible-playbook ${PGBLITZ_DIR}/ymls/crypt.yml -e "\
+ansible-playbook ${PGBLITZ_DIR}/ansible/crypt.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -91,7 +91,7 @@ if [[ "$transport" == "sd" || "$transport" == "sc" ]]; then
 fi
 
 # deploy union
-ansible-playbook ${PGBLITZ_DIR}/ymls/pgunity.yml -e "\
+ansible-playbook ${PGBLITZ_DIR}/ansible/pgunity.yml -e "\
   transport=$transport
   encryptbit=$encryptbit
   multihds=$multihds
