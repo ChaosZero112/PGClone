@@ -14,7 +14,7 @@ export PGBLITZ_DIR=/pg/pgclone
 # Install required software and make Python 3's pip (pip3) default
 software () {
     apt-get update && \
-    apt-get install -y --reinstall \
+    apt-get install -y \
       jq \
       nano \
       git \
@@ -26,14 +26,14 @@ software () {
       python3-testresources \
       python3-pip \
       python3-testresources
-  python3 -m pip install --disable-pip-version-check --upgrade --force-reinstall pip==20.2.4
-  python3 -m pip install --disable-pip-version-check --upgrade --force-reinstall setuptools
-  python3 -m pip install --disable-pip-version-check --upgrade --force-reinstall \
+  python3 -m pip install --disable-pip-version-check --upgrade pip==20.2.4
+  python3 -m pip install --disable-pip-version-check --upgrade setuptools
+  python3 -m pip install --disable-pip-version-check --upgrade \
       pyOpenSSL \
       requests \
       netaddr \
       lxml
-  python3 -m pip install --disable-pip-version-check --upgrade --force-reinstall ansible==2.10.3
+  python3 -m pip install --disable-pip-version-check --upgrade ansible==2.10.3
 
   ## Copy pip to /usr/bin
   cp /usr/local/bin/pip3 /usr/bin/pip
@@ -63,7 +63,10 @@ folder_gen () {
     else
         while true; do
             if [[ -z $overwrite ]]; then
-            read -p "${PGBLITZ_DIR} exists. Overwrite? (Caution: All data will be lost!) [Y/n] " overwrite
+            echo -e ""
+            echo -e "\e[93m**********************************************************************\e[0m"
+            echo -e ""
+            read -p "${PGBLITZ_DIR} exists. Overwrite? (\e[93mCaution: All data will be lost!\e[0m) [Y/n] " overwrite
             fi
             case $overwrite in
                 [Yy]* ) rm -r /${PGBLITZ_DIR}
