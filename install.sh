@@ -32,8 +32,15 @@ set_environment () {
 
 # Install required software and make Python 3's pip (pip3) default
 software () {
-    apt-get update && \
-    apt-get install -y \
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💿 Installing Required Software ~ Please wait
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+    apt-get update >/dev/null && \
+    apt-get install -y -qq \
       jq \
       nano \
       git \
@@ -41,6 +48,9 @@ software () {
       libssl-dev \
       libffi-dev \
       mergerfs \
+      apt-transport-https \
+      ca-certificates \
+      gnupg \
       python3-dev \
       python3-testresources \
       python3-pip \
@@ -54,10 +64,17 @@ software () {
       lxml
   python3 -m pip install --disable-pip-version-check --upgrade ansible==2.10.3
 
+  # Google SDK
+    echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
+    apt-get update >/dev/null && \
+    apt-get -y -qq install google-cloud-sdk
+
   ## Copy pip to /usr/bin
   cp /usr/local/bin/pip3 /usr/bin/pip
   cp /usr/local/bin/pip3 /usr/bin/pip3
 
+  # Ansible config
   mkdir -p /etc/ansible/inventories/ 1>/dev/null 2>&1
   echo "[local]" > /etc/ansible/inventories/local
   echo "127.0.0.1 ansible_connection=local" >> /etc/ansible/inventories/local
@@ -83,6 +100,13 @@ fcreate () {
 # Create necessary folders, based on PGBLITZ_DIR value
 folder_gen () {
     if [[ ! -e ${PGBLITZ_DIR} ]]; then
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 Creating Required Folders
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
         fcreate ${PGBLITZ_DIR}
         fcreate /pg
         fcreate /pg/logs
@@ -97,14 +121,31 @@ folder_gen () {
     else
         while true; do
             if [[ -z $overwrite ]]; then
-            echo -e ""
-            echo -e "\e[93m*****************************************************\e[0m"
-            echo -e ""
-            echo -e "The install directory of ${PGBLITZ_DIR} already exists."
-            read -p "Overwrite? (Caution: All data will be lost!) [Y/n] " overwrite
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠ Directory Exists
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The install directory of ${PGBLITZ_DIR} already exists.
+If you choose to continue, all data within the directory will be lost.
+(Note: You will lose any previous configurations!)
+
+[1] Continue and Overwrite
+[Z] Exit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+            read -rp '↘️  Input Selection | Press [ENTER]: ' overwrite < /dev/tty
             fi
             case $overwrite in
-                [Yy]* ) rm -r ${PGBLITZ_DIR}
+                [1Yy]* ) rm -r ${PGBLITZ_DIR}
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 Creating Required Folders
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
                     fcreate ${PGBLITZ_DIR}
                     fcreate /pg
                     fcreate /pg/logs
@@ -118,12 +159,18 @@ folder_gen () {
                     fcreate ${PGBLITZ_DIR}/var
                     break
                     ;;
-                [Nn]* ) echo -e ""
-                    echo "User aborted."
-                    echo -e ""
-                    echo -e "\e[31mTip: To change the install directory from the default /pg/pgclone"
-                    echo -e "set the PGBLITZ_DIR variable to the location of your choosing. eg:\e[0m"
-                    echo "PGBLITZ_DIR=\"/my/dir\" bash install.sh"
+                [NnZz]* ) tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚫 User Aborted
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+\e[31mTip: To change the install directory from the default /pg/pgclone"
+set the PGBLITZ_DIR variable to the location of your choosing. eg:\e[0m"
+PGBLITZ_DIR=\"/my/dir\" bash install.sh"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
                     exit 1
                     ;;
                 * ) echo -e "\e[31mInvalid input:\e[0m $overwrite."
@@ -137,22 +184,38 @@ folder_gen () {
     if [[ -e ${PGBLITZ_SRC} ]]; then
         while true; do
             if [[ -z $overwrite ]]; then
-            echo -e ""
-            echo -e "\e[93m**********************************************************************\e[0m"
-            echo -e ""
-            echo -e "The source code directory of ${PGBLITZ_SRC} already exists."
-            read -p "Overwrite? (Caution: Source will be reverted to current v10 branch) [Y/n] " overwrite
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠ Directory Exists
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The source code directory of ${PGBLITZ_SRC} already exists.
+If you choose to continue, folder will be reset to the current v10 branch.
+Any changes (if any) will be lost.
+(This does not affect any configurations and is likely safe to continue.)
+
+[1] Continue
+[Z] Exit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+            read -rp '↘️  Input Selection | Press [ENTER]: ' overwrite < /dev/tty
             fi
             case $overwrite in
-                [Yy]* ) rm -r ${PGBLITZ_SRC}
+                [1Yy]* ) rm -r ${PGBLITZ_SRC}
                     break
                     ;;
-                [Nn]* ) echo -e ""
-                    echo "User aborted."
-                    echo -e ""
+                [ZzNn]* ) tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚫 User Aborted
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
                     exit 1
                     ;;
-                * ) echo -e "\e[31mInvalid input:\e[0m $overwrite."
+                * ) echo -e ""
+                    echo -e "\e[31mInvalid input:\e[0m $overwrite."
                     echo "Please answer \"y\" for yes or \"n\" for no."
                     unset overwrite
                     ;;
@@ -164,7 +227,7 @@ folder_gen () {
 
 # Clone the git environment
 git_environment () {
-    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_SRC}
+    git clone -q --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_SRC}
 }
 
 # Execute
