@@ -11,9 +11,9 @@ rcloneinstall () {
 rversion=1.53.2
 
 rcheck1=$(rclone --version 2>&1)
-rcheck2=$(echo $rcheck1 | cut -c1-12)
+rcheck2=$(echo ${rcheck1:8:6})
 
-if [[ "rclone v$rversion" != "$rcheck2" ]]; then
+if [[ "$rversion" != "$rcheck2" ]]; then
 
 tee <<-EOF
 
@@ -33,6 +33,28 @@ tee "/etc/fuse.conf" > /dev/null <<EOF
 user_allow_other
 EOF
 
-ansible-playbook ${PGBLITZ_DIR}/ansible/rclone.yml; fi
+ansible-playbook ${PGBLITZ_DIR}/ansible/rclone.yml
+
+else
+
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💪 Detected RClone Version ~ $rversion
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+sleep 1.5
+
+tee "/etc/fuse.conf" > /dev/null <<EOF
+# /etc/fuse.conf - Configuration file for Filesystem in Userspace (FUSE)
+# Set the maximum number of FUSE mounts allowed to non-root users.
+# The default is 1000.
+#mount_max = 1000
+# Allow non-root users to specify the allow_other or allow_root mount options.
+user_allow_other
+EOF
+
+fi
 
 }
