@@ -33,7 +33,7 @@ tee "/etc/fuse.conf" > /dev/null <<EOF
 user_allow_other
 EOF
 
-ansible-playbook ${PGBLITZ_DIR}/ansible/rclone.yml
+ansible-playbook ${PGBLITZ_SRC}/ansible/rclone.yml
 
 else
 

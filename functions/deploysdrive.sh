@@ -17,12 +17,12 @@ rm -rf plexguide/deployed.version
 pgclonevars
 
 # to remove all service running prior to ensure a clean launch
-ansible-playbook ${PGBLITZ_DIR}/ansible/remove.yml
+ansible-playbook ${PGBLITZ_SRC}/ansible/remove.yml
 
 # gdrive deploys by standard
 type=gd
 encryptbit=""
-ansible-playbook ${PGBLITZ_DIR}/ansible/mount.yml -e "\
+ansible-playbook ${PGBLITZ_SRC}/ansible/mount.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -32,7 +32,7 @@ ansible-playbook ${PGBLITZ_DIR}/ansible/mount.yml -e "\
   drive=gd"
 
 type=sd
-ansible-playbook ${PGBLITZ_DIR}/ansible/mount.yml -e "\
+ansible-playbook ${PGBLITZ_SRC}/ansible/mount.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -45,7 +45,7 @@ ansible-playbook ${PGBLITZ_DIR}/ansible/mount.yml -e "\
 # deploy only if gdrive is using encryption
 if [[ "$transport" == "sc" ]]; then
 type=gc
-ansible-playbook ${PGBLITZ_DIR}/ansible/crypt.yml -e "\
+ansible-playbook ${PGBLITZ_SRC}/ansible/crypt.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -57,7 +57,7 @@ ansible-playbook ${PGBLITZ_DIR}/ansible/crypt.yml -e "\
 echo "sc" > ${PGBLITZ_DIR}/rclone/deployed.version
 type=sc
 encryptbit="C"
-ansible-playbook ${PGBLITZ_DIR}/ansible/crypt.yml -e "\
+ansible-playbook ${PGBLITZ_SRC}/ansible/crypt.yml -e "\
   bs=$bs
   dcs=$dcs
   dct=$dct
@@ -78,7 +78,7 @@ while read p; do
 done <${PGBLITZ_DIR}/var/.blitzlist
 
 # deploy union
-ansible-playbook ${PGBLITZ_DIR}/ansible/pgunity.yml -e "\
+ansible-playbook ${PGBLITZ_SRC}/ansible/pgunity.yml -e "\
   transport=$transport \
   type=$type
   multihds=$multihds

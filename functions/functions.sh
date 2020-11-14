@@ -95,7 +95,7 @@ EOF
 
 
 removepgservices () {
-  ansible-playbook ${PGBLITZ_DIR}/pgservices.yml
+  ansible-playbook ${PGBLITZ_SRC}/pgservices.yml
 }
 
 readrcloneconfig () {
