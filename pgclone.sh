@@ -6,50 +6,40 @@
 # GNU:        General Public License v3.0
 ################################################################################
 set_location () {
-    
-    if [[ "${PGBLITZ_DIR:0:1}" == / ]]; then
-        mkdir -p $PGBLITZ_DIR
-    elif [[ -v $PGBLITZ_DIR ]]; then
-        export PGBLITZ_DIR=/${PGBLITZ_DIR}
-        mkdir -p $PGBLITZ_DIR
-    else
+    if [ $standalone == 0 ] || [ -z $standalone ]; then
         export PGBLITZ_DIR=/pg/pgclone
-        mkdir -p $PGBLITZ_DIR
+        export PGBLITZ_SRC=/pg/pgclone
     fi
 }
 
 set_location
 ################################################################################
-source ${PGBLITZ_DIR}/functions/folders.sh
-source ${PGBLITZ_DIR}/functions/functions.sh
-source ${PGBLITZ_DIR}/functions/variables.sh
-source ${PGBLITZ_DIR}/functions/mountnumbers.sh
-source ${PGBLITZ_DIR}/functions/keys.sh
-source ${PGBLITZ_DIR}/functions/keyback.sh
-source ${PGBLITZ_DIR}/functions/pgclone.sh
-source ${PGBLITZ_DIR}/functions/gaccount.sh
-source ${PGBLITZ_DIR}/functions/publicsecret.sh
-source ${PGBLITZ_DIR}/functions/transportselect.sh
-source ${PGBLITZ_DIR}/functions/projectname.sh
-source ${PGBLITZ_DIR}/functions/clonestartoutput.sh
-source ${PGBLITZ_DIR}/functions/oauth.sh
-source ${PGBLITZ_DIR}/functions/passwords.sh
-source ${PGBLITZ_DIR}/functions/oauthcheck.sh
-source ${PGBLITZ_DIR}/functions/keysbuild.sh
-source ${PGBLITZ_DIR}/functions/emails.sh
-source ${PGBLITZ_DIR}/functions/deploy.sh
-source ${PGBLITZ_DIR}/functions/rcloneinstall.sh
-source ${PGBLITZ_DIR}/functions/deploytransfer.sh
-source ${PGBLITZ_DIR}/functions/deploysdrive.sh
-source ${PGBLITZ_DIR}/functions/multihd.sh
-source ${PGBLITZ_DIR}/functions/deploylocal.sh
-source ${PGBLITZ_DIR}/functions/createsdrive.sh
-source ${PGBLITZ_DIR}/functions/cloneclean.sh
-source ${PGBLITZ_DIR}/functions/uagent.sh
+source  ${PGBLITZ_SRC}/functions/functions.sh
+source  ${PGBLITZ_SRC}/functions/variables.sh
+source  ${PGBLITZ_SRC}/functions/mountnumbers.sh
+source  ${PGBLITZ_SRC}/functions/keys.sh
+source  ${PGBLITZ_SRC}/functions/keyback.sh
+source  ${PGBLITZ_SRC}/functions/pgclone.sh
+source  ${PGBLITZ_SRC}/functions/gaccount.sh
+source  ${PGBLITZ_SRC}/functions/publicsecret.sh
+source  ${PGBLITZ_SRC}/functions/transportselect.sh
+source  ${PGBLITZ_SRC}/functions/projectname.sh
+source  ${PGBLITZ_SRC}/functions/clonestartoutput.sh
+source  ${PGBLITZ_SRC}/functions/oauth.sh
+source  ${PGBLITZ_SRC}/functions/passwords.sh
+source  ${PGBLITZ_SRC}/functions/oauthcheck.sh
+source  ${PGBLITZ_SRC}/functions/keysbuild.sh
+source  ${PGBLITZ_SRC}/functions/emails.sh
+source  ${PGBLITZ_SRC}/functions/deploy.sh
+source  ${PGBLITZ_SRC}/functions/rcloneinstall.sh
+source  ${PGBLITZ_SRC}/functions/deploytransfer.sh
+source  ${PGBLITZ_SRC}/functions/deploysdrive.sh
+source  ${PGBLITZ_SRC}/functions/multihd.sh
+source  ${PGBLITZ_SRC}/functions/deploylocal.sh
+source  ${PGBLITZ_SRC}/functions/createsdrive.sh
+source  ${PGBLITZ_SRC}/functions/cloneclean.sh
+source  ${PGBLITZ_SRC}/functions/uagent.sh
 ################################################################################
-
-# (folders.sh) Create folders if running in "standalone" mode
-make_folders
 
 # (rcloneinstall.sh) Install rclone
 rcloneinstall

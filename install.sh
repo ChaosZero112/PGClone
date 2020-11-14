@@ -6,10 +6,29 @@
 # GNU:        General Public License v3.0
 ################################################################################
 
-export standalone=1
-export PGBLITZ_DIR=/pg/pgclone
-
-################################################################################
+set_environment () {
+    export standalone=1
+    if [ -z ${PGBLITZ_DIR} ]; then
+        export PGBLITZ_DIR=/pg/pgclone
+    else
+        if [[ "${PGBLITZ_DIR:0:1}" == / ]]; then
+            #do nothing
+            export ${PGBLITZ_DIR}=${PGBLITZ_DIR}
+        elif [[ -v $PGBLITZ_DIR ]]; then
+            export PGBLITZ_DIR=/${PGBLITZ_DIR}
+        fi
+    fi
+    if [ -z ${PGBLITZ_SRC} ]; then
+        export PGBLITZ_SRC=${PGBLITZ_DIR}-src
+    else
+        if [[ "${PGBLITZ_SRC:0:1}" == / ]]; then
+            #do nothing
+            export ${PGBLITZ_SRC}=${PGBLITZ_SRC}
+        else
+            export PGBLITZ_SRC=/${PGBLITZ_SRC}
+        fi
+    fi
+}
 
 # Install required software and make Python 3's pip (pip3) default
 software () {
@@ -53,13 +72,28 @@ software () {
   echo "nocows = 1" >> /etc/ansible/ansible.cfg
 }
 
+fcreate () {
+    if [[ ! -e "$1" ]]; then
+        mkdir -p "$1"
+        chown 1000:1000 "$1"
+        chmod 0775 "$1"; fi
+        echo "Generated Folder: $1"
+}
+
 # Create necessary folders, based on PGBLITZ_DIR value
 folder_gen () {
     if [[ ! -e ${PGBLITZ_DIR} ]]; then
-        mkdir -p ${PGBLITZ_DIR}
-        chown 1000:1000 ${PGBLITZ_DIR}
-        chmod 0775 ${PGBLITZ_DIR}
-        echo "Generated Folder: ${PGBLITZ_DIR}"
+        fcreate ${PGBLITZ_DIR}
+        fcreate /pg
+        fcreate /pg/logs
+        fcreate /pg/gc
+        fcreate /pg/gd
+        fcreate /pg/sc
+        fcreate /pg/sd
+        fcreate /pg/transfer
+        fcreate /pg/transport
+        fcreate ${PGBLITZ_DIR}/rclone
+        fcreate ${PGBLITZ_DIR}/var
     else
         while true; do
             if [[ -z $overwrite ]]; then
@@ -71,10 +105,17 @@ folder_gen () {
             fi
             case $overwrite in
                 [Yy]* ) rm -r ${PGBLITZ_DIR}
-                    mkdir -p ${PGBLITZ_DIR}
-                    chown 1000:1000 ${PGBLITZ_DIR}
-                    chmod 0775 ${PGBLITZ_DIR}
-                    echo "Generated Folder: ${PGBLITZ_DIR}"
+                    fcreate ${PGBLITZ_DIR}
+                    fcreate /pg
+                    fcreate /pg/logs
+                    fcreate /pg/gc
+                    fcreate /pg/gd
+                    fcreate /pg/sc
+                    fcreate /pg/sd
+                    fcreate /pg/transfer
+                    fcreate /pg/transport
+                    fcreate ${PGBLITZ_DIR}/rclone
+                    fcreate ${PGBLITZ_DIR}/var
                     break
                     ;;
                 [Nn]* ) echo -e ""
@@ -93,17 +134,17 @@ folder_gen () {
         done
     fi
     unset overwrite
-    if [[ -e ${PGBLITZ_DIR}-src ]]; then
+    if [[ -e ${PGBLITZ_SRC} ]]; then
         while true; do
             if [[ -z $overwrite ]]; then
             echo -e ""
             echo -e "\e[93m**********************************************************************\e[0m"
             echo -e ""
-            echo -e "The source code directory of ${PGBLITZ_DIR}-src already exists."
+            echo -e "The source code directory of ${PGBLITZ_SRC} already exists."
             read -p "Overwrite? (Caution: Source will be reverted to current v10 branch) [Y/n] " overwrite
             fi
             case $overwrite in
-                [Yy]* ) rm -r ${PGBLITZ_DIR}-src
+                [Yy]* ) rm -r ${PGBLITZ_SRC}
                     break
                     ;;
                 [Nn]* ) echo -e ""
@@ -123,12 +164,13 @@ folder_gen () {
 
 # Clone the git environment
 git_environment () {
-    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_DIR}-src
+    git clone --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_SRC}
 }
 
 # Execute
+set_environment
 software
 folder_gen
 git_environment
-( cd ${PGBLITZ_DIR}-src && . ${PGBLITZ_DIR}-src/pgclone.sh )
+( cd ${PGBLITZ_SRC} && . ${PGBLITZ_SRC}/pgclone.sh )
 exit 0
