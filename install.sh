@@ -65,8 +65,8 @@ EOF
   python3 -m pip install --disable-pip-version-check --upgrade ansible==2.10.3
 
   # Google SDK
-    echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
+    echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     apt-get update >/dev/null && \
     apt-get -y -qq install google-cloud-sdk
 

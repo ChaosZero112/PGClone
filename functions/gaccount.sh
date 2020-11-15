@@ -13,8 +13,8 @@ read -p '⛔️ ERROR - Bad Input! | Press [ENTER] ' typed < /dev/tty
 }
 
 glogin () {
-if [ -f ${PGBLITZ_DIR}/var/project.email ]
-    # Not sure where emailaccount is being used??
+if [ -f ${PGBLITZ_DIR}/var/project.email ]; then
+    # Not sure where this var is being used?? 🤷‍♂️
     emailaccount=$(cat ${PGBLITZ_DIR}/var/project.email)
 fi
 

@@ -149,7 +149,7 @@ localstartoutput () {
   1 )
       executelocal ;;
   2 )
-      bash /pg/pgblitz/menu/pgcloner/multihd.sh ;;
+      bash ${PGBLITZ_SRC}/functions/multihd.sh ;;
   3 )
       transportselect ;;
   z )
@@ -323,7 +323,7 @@ elif [[ "$transport" == "sc" ]]; then
         7 )
             publicsecretchecker
             passwordcheck
-            echo "gd" > ${PGBLITZ_DIR}/rclone/deploy.version
+            echo "gc" > ${PGBLITZ_DIR}/rclone/deploy.version
             oauth ;;
 
         8 )
