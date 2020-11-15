@@ -15,7 +15,7 @@ read -p '⛔️ ERROR - Bad Input! | Press [ENTER] ' typed < /dev/tty
 glogin () {
 if [ -f ${PGBLITZ_DIR}/var/project.email ]; then
     # Not sure where this var is being used?? 🤷‍♂️
-    emailaccount=$(cat ${PGBLITZ_DIR}/var/project.email)
+    emailaccount=$(cat ${PGBLITZ_DIR}/rclone/project.email)
 fi
 
 tee <<-EOF
@@ -46,5 +46,5 @@ read -p '↘️  Acknowledge Info | Press [ENTER] ' typed < /dev/tty
 glogin
 fi
 
-echo "$typed" > ${PGBLITZ_DIR}/var/pgclone.email
+echo "$typed" > ${PGBLITZ_DIR}/rclone/pgclone.email
 }
