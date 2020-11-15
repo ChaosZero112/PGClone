@@ -143,7 +143,7 @@ EOF
             read -rp '↘️  Input Selection | Press [ENTER]: ' overwrite < /dev/tty
             fi
             case $overwrite in
-                [1]* ) [NnZz]* ) tee <<-EOF
+                [1]* ) tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 👉 Continuing without wiping
@@ -231,7 +231,7 @@ EOF
                     exit 1
                     ;;
                 * ) echo -e ""
-                    echo "Please select a valid option (1, or Z)."
+                    echo "Please select a valid option (1 or Z)."
                     unset overwrite
                     ;;
             esac
