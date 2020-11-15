@@ -127,10 +127,15 @@ tee <<-EOF
 ⚠ Directory Exists
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 The install directory of ${PGBLITZ_DIR} already exists.
-If you choose to continue, all data within the directory will be lost.
-(Note: You will lose any previous configurations!)
 
-[1] Continue and Overwrite
+1. You may choose to continue without touching the existing folder (this
+is likely the option you want) or 
+
+2. You can choose to wipe the existing folder and all data within the
+directory will be lost. (Note: You will lose any previous configurations!)
+
+[1] Continue without wipe (keep settings)
+[2] Continue and wipe (erase settings)
 [Z] Exit
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -138,27 +143,18 @@ EOF
             read -rp '↘️  Input Selection | Press [ENTER]: ' overwrite < /dev/tty
             fi
             case $overwrite in
-                [1Yy]* ) rm -r ${PGBLITZ_DIR}
-tee <<-EOF
+                [1]* ) [NnZz]* ) tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📁 Creating Required Folders
+👉 Continuing without wiping
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-                    fcreate ${PGBLITZ_DIR}
-                    fcreate /pg
-                    fcreate /pg/logs
-                    fcreate /pg/gc
-                    fcreate /pg/gd
-                    fcreate /pg/sc
-                    fcreate /pg/sd
-                    fcreate /pg/transfer
-                    fcreate /pg/transport
-                    fcreate ${PGBLITZ_DIR}/rclone
-                    fcreate ${PGBLITZ_DIR}/var
-                    break
-                    ;;
+                break
+                ;;
+                [2]* ) rm -r ${PGBLITZ_DIR}
+                break
+                ;;
                 [NnZz]* ) tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -174,13 +170,33 @@ EOF
                     exit 1
                     ;;
                 * ) echo -e "\e[31mInvalid input:\e[0m $overwrite."
-                    echo "Please answer \"y\" for yes or \"n\" for no."
+                    echo -e ""
+                    echo "Please select a valid option (1, 2, or Z)."
                     unset overwrite
                     ;;
             esac
         done
     fi
     unset overwrite
+    tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 Creating Required Folders
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+    fcreate ${PGBLITZ_DIR}
+    fcreate /pg
+    fcreate /pg/logs
+    fcreate /pg/gc
+    fcreate /pg/gd
+    fcreate /pg/sc
+    fcreate /pg/sd
+    fcreate /pg/transfer
+    fcreate /pg/transport
+    fcreate ${PGBLITZ_DIR}/rclone
+    fcreate ${PGBLITZ_DIR}/var
+
     if [[ -e ${PGBLITZ_SRC} ]]; then
         while true; do
             if [[ -z $overwrite ]]; then
@@ -191,7 +207,7 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 The source code directory of ${PGBLITZ_SRC} already exists.
 If you choose to continue, folder will be reset to the current v10 branch.
-Any changes (if any) will be lost.
+All changes (if any) will be lost.
 (This does not affect any configurations and is likely safe to continue.)
 
 [1] Continue
@@ -215,8 +231,7 @@ EOF
                     exit 1
                     ;;
                 * ) echo -e ""
-                    echo -e "\e[31mInvalid input:\e[0m $overwrite."
-                    echo "Please answer \"y\" for yes or \"n\" for no."
+                    echo "Please select a valid option (1, or Z)."
                     unset overwrite
                     ;;
             esac
