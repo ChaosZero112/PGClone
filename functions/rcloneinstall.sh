@@ -24,15 +24,6 @@ tee <<-EOF
 EOF
 sleep 1.5
 
-tee "/etc/fuse.conf" > /dev/null <<EOF
-# /etc/fuse.conf - Configuration file for Filesystem in Userspace (FUSE)
-# Set the maximum number of FUSE mounts allowed to non-root users.
-# The default is 1000.
-#mount_max = 1000
-# Allow non-root users to specify the allow_other or allow_root mount options.
-user_allow_other
-EOF
-
 ansible-playbook ${PGBLITZ_SRC}/ansible/rclone.yml
 
 else
@@ -46,6 +37,11 @@ tee <<-EOF
 EOF
 sleep 1.5
 
+fi
+
+}
+
+rcpiece () {
 tee "/etc/fuse.conf" > /dev/null <<EOF
 # /etc/fuse.conf - Configuration file for Filesystem in Userspace (FUSE)
 # Set the maximum number of FUSE mounts allowed to non-root users.
@@ -54,7 +50,4 @@ tee "/etc/fuse.conf" > /dev/null <<EOF
 # Allow non-root users to specify the allow_other or allow_root mount options.
 user_allow_other
 EOF
-
-fi
-
 }
