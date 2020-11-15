@@ -11,34 +11,9 @@ set_location () {
         export PGBLITZ_SRC=/pg/pgclone
     fi
 }
-
 set_location
 ################################################################################
-source  ${PGBLITZ_SRC}/functions/functions.sh
-source  ${PGBLITZ_SRC}/functions/variables.sh
-source  ${PGBLITZ_SRC}/functions/mountnumbers.sh
-source  ${PGBLITZ_SRC}/functions/keys.sh
-source  ${PGBLITZ_SRC}/functions/keyback.sh
-source  ${PGBLITZ_SRC}/functions/pgclone.sh
-source  ${PGBLITZ_SRC}/functions/gaccount.sh
-source  ${PGBLITZ_SRC}/functions/publicsecret.sh
-source  ${PGBLITZ_SRC}/functions/transportselect.sh
-source  ${PGBLITZ_SRC}/functions/projectname.sh
-source  ${PGBLITZ_SRC}/functions/clonestartoutput.sh
-source  ${PGBLITZ_SRC}/functions/oauth.sh
-source  ${PGBLITZ_SRC}/functions/passwords.sh
-source  ${PGBLITZ_SRC}/functions/oauthcheck.sh
-source  ${PGBLITZ_SRC}/functions/keysbuild.sh
-source  ${PGBLITZ_SRC}/functions/emails.sh
-source  ${PGBLITZ_SRC}/functions/deploy.sh
-source  ${PGBLITZ_SRC}/functions/rcloneinstall.sh
-source  ${PGBLITZ_SRC}/functions/deploytransfer.sh
-source  ${PGBLITZ_SRC}/functions/deploysdrive.sh
-source  ${PGBLITZ_SRC}/functions/multihd.sh
-source  ${PGBLITZ_SRC}/functions/deploylocal.sh
-source  ${PGBLITZ_SRC}/functions/createsdrive.sh
-source  ${PGBLITZ_SRC}/functions/cloneclean.sh
-source  ${PGBLITZ_SRC}/functions/uagent.sh
+ for funcs in ${PGBLITZ_SRC}/functions/*.sh; do source $funcs; done
 ################################################################################
 
 # (rcloneinstall.sh) Install rclone

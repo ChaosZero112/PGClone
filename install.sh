@@ -99,26 +99,7 @@ fcreate () {
 
 # Create necessary folders, based on PGBLITZ_DIR value
 folder_gen () {
-    if [[ ! -e ${PGBLITZ_DIR} ]]; then
-tee <<-EOF
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📁 Creating Required Folders
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EOF
-        fcreate ${PGBLITZ_DIR}
-        fcreate /pg
-        fcreate /pg/logs
-        fcreate /pg/gc
-        fcreate /pg/gd
-        fcreate /pg/sc
-        fcreate /pg/sd
-        fcreate /pg/transfer
-        fcreate /pg/transport
-        fcreate ${PGBLITZ_DIR}/rclone
-        fcreate ${PGBLITZ_DIR}/var
-    else
+    if [[ -e ${PGBLITZ_DIR} ]]; then
         while true; do
             if [[ -z $overwrite ]]; then
 tee <<-EOF
@@ -207,8 +188,10 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 The source code directory of ${PGBLITZ_SRC} already exists.
 If you choose to continue, folder will be reset to the current v10 branch.
-All changes (if any) will be lost.
-(This does not affect any configurations and is likely safe to continue.)
+
+All changes within ${PGBLITZ_SRC} (if any) will be lost.
+
+(This does not affect any configurations and it's likely safe to continue.)
 
 [1] Continue
 [Z] Exit
