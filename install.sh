@@ -161,8 +161,8 @@ EOF
 🚫 User Aborted
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-\e[31mTip: To change the install directory from the default /pg/pgclone"
-set the PGBLITZ_DIR variable to the location of your choosing. eg:\e[0m"
+Tip: To change the install directory from the default /pg/pgclone"
+set the PGBLITZ_DIR variable to the location of your choosing. eg:"
 PGBLITZ_DIR=\"/my/dir\" bash install.sh"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -186,6 +186,8 @@ EOF
 
 EOF
     fcreate ${PGBLITZ_DIR}
+    fcreate ${PGBLITZ_DIR}/rclone
+    fcreate ${PGBLITZ_DIR}/var
     fcreate /pg
     fcreate /pg/logs
     fcreate /pg/gc
@@ -194,8 +196,6 @@ EOF
     fcreate /pg/sd
     fcreate /pg/transfer
     fcreate /pg/transport
-    fcreate ${PGBLITZ_DIR}/rclone
-    fcreate ${PGBLITZ_DIR}/var
 
     if [[ -e ${PGBLITZ_SRC} ]]; then
         while true; do

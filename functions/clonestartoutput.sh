@@ -323,7 +323,7 @@ elif [[ "$transport" == "sc" ]]; then
         7 )
             publicsecretchecker
             passwordcheck
-            echo "gc" > ${PGBLITZ_DIR}/rclone/deploy.version
+            echo "gd" > ${PGBLITZ_DIR}/rclone/deploy.version
             oauth ;;
 
         8 )
