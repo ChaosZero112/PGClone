@@ -54,7 +54,7 @@ echo ${type} > ${PGBLITZ_DIR}/rclone/oauth.check
 oauthcheck
 
 ## Adds Encryption to the Test Phase if Move or Blitz Encrypted is On
-if [[ "$transport" == "sd" || "$transport" == "gc" ]]; then
+if [[ "$transport" == "sc" || "$transport" == "gc" ]]; then
 
 if [ "$type" == "gd" ]; then entype="gc";
 else entype="sc"; fi
