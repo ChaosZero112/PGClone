@@ -32,6 +32,7 @@ set_environment () {
 
 # Installer introduction
 intro (){
+    clear
 tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -46,26 +47,21 @@ https://bit.ly/3nv7dap
 
 Press ^C (Ctrl + C) at any time to exit the installer.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Launching in...
 EOF
+sleep 3
+echo -en "Launching in...\r"
 sleep 1
-echo ""
-echo "5"
+echo -en "Launching in... 5\r"
 sleep 1
-echo ""
-echo "4"
+echo -en "Launching in... 4\r"
 sleep 1
-echo ""
-echo "3"
+echo -en "Launching in... 3\r"
 sleep 1
-echo ""
-echo "2"
+echo -en "Launching in... 2\r"
 sleep 1
-echo ""
-echo "1"
+echo -en "Launching in... 1\r"
 sleep 1
-echo ""
-echo "Blast Off! 🚀"
+echo -en "Launching in... Blast Off! 🚀\r"
 }
 
 # Install required software and make Python 3's pip (pip3) default
