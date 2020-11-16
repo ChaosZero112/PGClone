@@ -42,7 +42,7 @@ tee <<-EOF
 [3] Client ID & Secret    [${pgcloneid}]
 [4] Passwords             [$pstatus]
 [5] SDrive Label          [$sdname]
-[6] SDrive | SDrive       [$sdstatus] - [$scstatus]
+[6] SDrive | SCrypt       [$sdstatus] - [$scstatus]
 [7] GDrive | GCrypt       [$gdstatus] - [$gcstatus]
 [8] Key Management        [$displaykey] Built
 [9] SDrive (E-Mail Share Generator)
