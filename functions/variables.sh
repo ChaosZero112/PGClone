@@ -108,7 +108,7 @@ else dversionoutput="None"; fi
 
 # Copy JSON if Missing
 if [ $standalone == 1 ]; then
-  if [ ! -e "${PGBLITZ_DIR}/rclone/pgclone.json" ]; then cp ${PGBLITZ_DIR}-src/pgclone.json ${PGBLITZ_DIR}/rclone/pgclone.json; fi
+  if [ ! -e "${PGBLITZ_DIR}/rclone/pgclone.json" ]; then cp ${PGBLITZ_SRC}/pgclone.json ${PGBLITZ_DIR}/rclone/pgclone.json; fi
 else
   if [ ! -e "${PGBLITZ_DIR}/rclone/pgclone.json" ]; then cp ${PGBLITZ_DIR}/pgclone.json ${PGBLITZ_DIR}/rclone/pgclone.json; fi
 fi
