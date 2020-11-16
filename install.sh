@@ -30,6 +30,44 @@ set_environment () {
     fi
 }
 
+# Installer introduction
+intro (){
+tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💪 Welcome to PG Clone: Standalone Installer ~ http://pgclone.pgblitz.com
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This will install PG Clone (PG Move or PG Blitz) in Standalone Mode.
+
+If you are trying to install PlexGuide (https://plexguide.com), this is
+not the way to do it. Instead, check out the install instructions at:
+https://bit.ly/3nv7dap
+
+Press ^C (Ctrl + C) at any time to exit the installer.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Launching in...
+EOF
+sleep 1
+echo ""
+echo "5"
+sleep 1
+echo ""
+echo "4"
+sleep 1
+echo ""
+echo "3"
+sleep 1
+echo ""
+echo "2"
+sleep 1
+echo ""
+echo "1"
+sleep 1
+echo ""
+echo "Blast Off! 🚀"
+}
+
 # Install required software and make Python 3's pip (pip3) default
 software () {
 tee <<-EOF
@@ -233,6 +271,7 @@ playbooks () {
 
 # Execute
 set_environment
+intro
 software
 folder_gen
 git_environment
