@@ -107,11 +107,7 @@ else dversionoutput="None"; fi
   cloneclean=$(cat ${PGBLITZ_DIR}/var/cloneclean)
 
 # Copy JSON if Missing
-if [ $standalone == 1 ]; then
-  if [ ! -e "${PGBLITZ_DIR}/rclone/pgclone.json" ]; then cp ${PGBLITZ_SRC}/pgclone.json ${PGBLITZ_DIR}/rclone/pgclone.json; fi
-else
-  if [ ! -e "${PGBLITZ_DIR}/rclone/pgclone.json" ]; then cp ${PGBLITZ_DIR}/pgclone.json ${PGBLITZ_DIR}/rclone/pgclone.json; fi
-fi
+if [ ! -e "${PGBLITZ_DIR}/rclone/pgclone.json" ]; then cp ${PGBLITZ_SRC}/pgclone.json ${PGBLITZ_DIR}/rclone/pgclone.json; fi
 
 # For PG Blitz Mounts
   bs=$(jq -r '.bs' ${PGBLITZ_DIR}/rclone/pgclone.json)
