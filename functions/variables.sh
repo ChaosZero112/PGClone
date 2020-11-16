@@ -80,8 +80,8 @@ pgclonevars () {
   if [[ "$pgclonesecret" == "" || "$pgclonepublic" == "" ]]; then pgcloneid="NOT-SET"; fi
   if [[ "$pgclonesecret" != "" && "$pgclonepublic" != "" ]]; then pgcloneid="ACTIVE"; fi
 
-  variable ${PGBLITZ_DIR}/rclone/pgclone.email "NOT-SET"
-  pgcloneemail=$(cat ${PGBLITZ_DIR}/rclone/pgclone.email)
+  variable ${PGBLITZ_DIR}/var/pgclone.email "NOT-SET"
+  pgcloneemail=$(cat ${PGBLITZ_DIR}/var/pgclone.email)
 
   variable ${PGBLITZ_DIR}/var/oauth.type "NOT-SET" #output for auth type
   oauthtype=$(cat ${PGBLITZ_DIR}/var/oauth.type)

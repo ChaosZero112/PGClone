@@ -227,11 +227,15 @@ EOF
 git_environment () {
     git clone -q --branch v10 https://github.com/ChaosZero112/PGClone.git ${PGBLITZ_SRC}
 }
+playbooks () {
+    cp -fR ${PGBLITZ_SRC}/ansible ${PGBLITZ_DIR}/ansible
+}
 
 # Execute
 set_environment
 software
 folder_gen
 git_environment
+playbooks
 ( cd ${PGBLITZ_SRC} && . ${PGBLITZ_SRC}/pgclone.sh )
 exit 0

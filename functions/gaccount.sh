@@ -46,5 +46,5 @@ read -p '↘️  Acknowledge Info | Press [ENTER] ' typed < /dev/tty
 glogin
 fi
 
-echo "$typed" > ${PGBLITZ_DIR}/rclone/pgclone.email
+echo "$typed" > ${PGBLITZ_DIR}/var/pgclone.email
 }
