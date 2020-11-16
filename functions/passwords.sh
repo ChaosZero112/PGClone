@@ -32,9 +32,11 @@ WARNING: Changing the values will RESET & DELETE the following:
 2. SDrive
 3. Service Keys
 
+Quitting? Type >>> exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
 read -p '↘️  Input Value | Press [Enter]: ' typed < /dev/tty
+if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" ]]; then clonestart; fi
 case $typed in
 2 )
     rm -rf ${PGBLITZ_DIR}/rclone/pgclone.password 1>/dev/null 2>&1
@@ -105,18 +107,25 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🌎 Set Passwords ~ pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Set the Following Passwords? Type y or n!
 
-Primary: $primarypassword
-SALT   : $secondarypassword
+PRIMARY
+$primarypassword
+
+SALT
+$secondarypassword
+
+Is the above information correct?
+[1] Yes
+[2] No
 
 Quitting? Type >>> exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
 
-read -p '↘️  Type y or n | Press [ENTER]: ' typed < /dev/tty
+read -p '↘️  Input Information | Press [Enter]: ' typed < /dev/tty
 
-if [[ "$typed" == "n" ]]; then blitzpasswordmain;
+if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" ]]; then clonestart; fi
+if [[ "$typed" == "2" ]]; then blitzpasswordmain;
 elif [[ "$typed" == "y" ]]; then
 echo $primarypassword > ${PGBLITZ_DIR}/rclone/pgclone.password
 echo $secondarypassword > ${PGBLITZ_DIR}/rclone/pgclone.salt

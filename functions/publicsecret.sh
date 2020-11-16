@@ -27,8 +27,10 @@ WARNING: Changing the values will RESET & DELETE the following:
 Change the Stored Values?
 [1] No [2] Yes
 
+Quitting? Type >>> exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
+if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" ]]; then clonestart; fi
 read -p '↘️  Input Value | Press [Enter]: ' typed < /dev/tty
 case $typed in
 2 )
@@ -97,7 +99,7 @@ $clientid
 SECRET ID
 $secretid
 
-Is the following information correct?
+Is the above information correct?
 [1] Yes
 [2] No
 [Z] Exit
