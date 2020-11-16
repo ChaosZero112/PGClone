@@ -124,9 +124,9 @@ EOF
 
 read -p '↘️  Input Information | Press [Enter]: ' typed < /dev/tty
 
-if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" ]]; then clonestart; fi
+if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" || "$typed" == "z" || "$typed" == "Z" ]]; then clonestart; fi
 if [[ "$typed" == "2" ]]; then blitzpasswordmain;
-elif [[ "$typed" == "y" ]]; then
+elif [[ "$typed" == "1" ]]; then
 echo $primarypassword > ${PGBLITZ_DIR}/rclone/pgclone.password
 echo $secondarypassword > ${PGBLITZ_DIR}/rclone/pgclone.salt
 else blitzpasswordfinal; fi
