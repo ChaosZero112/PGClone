@@ -22,12 +22,6 @@ useragent="$(cat ${PGBLITZ_DIR}/var/uagent)"
 bwg="$(cat ${PGBLITZ_DIR}/var/move.bw)"
 bws="$(cat ${PGBLITZ_DIR}/var/blitz.bw)"
 
-var3=$(cat ${PGBLITZ_DIR}/rclone/deployed.version)
-if [[ "$var3" == "gd" ]]; then var4="gdrive"
-elif [[ "$var3" == "gc" ]]; then var4="gdrive"
-elif [[ "$var3" == "sd" ]]; then var4="sdrive"
-elif [[ "$var3" == "sc" ]]; then var4="sdrive"; fi
-
 filecount=$(wc -l /pg/logs/.transfer_list | awk '{print $1}')
 echo "$filecount" > ${PGBLITZ_DIR}/var/filecount
 
@@ -58,7 +52,8 @@ chmod 775 "$uploadfile"
   echo "Preparing to Upload: $uploadfile" >> /pg/logs/transfer.log
   truepath=$(echo $uploadfile | cut -d'/' -f${finalcount}-)
 
-if [[ "$var4" == "gdrive" ]]; then
+var3=$(cat ${PGBLITZ_DIR}/rclone/deployed.version)
+if [[ "$var3" == "gd" ]] || [[ "$var3" == "gc" ]]; then
   echo "Started Upload - $var3: $uploadfile" >> /pg/logs/transfer.log
   udrive=$(cat ${PGBLITZ_DIR}/rclone/deployed.version)
 
@@ -79,7 +74,7 @@ else
   readykey=$(cat ${PGBLITZ_DIR}/rclone/currentkey)
   uread=$(cat ${PGBLITZ_DIR}/rclone/deployed.version)
   encryptbit=""
-  if [[ "$uread" == "sc" ]]; then encryptbit="C"; fi
+  if [[ "$var3" == "sc" ]]; then encryptbit="C"; fi
 
     rclone move "$uploadfile" "${readykey}${encryptbit}:/$truepath" \
     --config ${PGBLITZ_DIR}/rclone/blitz.conf \
