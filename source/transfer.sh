@@ -26,7 +26,7 @@ var3=$(cat ${PGBLITZ_DIR}/rclone/deployed.version)
 if [[ "$var3" == "gd" ]]; then var4="gdrive"
 elif [[ "$var3" == "gc" ]]; then var4="gdrive"
 elif [[ "$var3" == "sd" ]]; then var4="sdrive"
-elif [[ "$var3" == "sd" ]]; then var4="sdrive"; fi
+elif [[ "$var3" == "sc" ]]; then var4="sdrive"; fi
 
 filecount=$(wc -l /pg/logs/.transfer_list | awk '{print $1}')
 echo "$filecount" > ${PGBLITZ_DIR}/var/filecount
