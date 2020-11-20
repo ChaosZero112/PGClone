@@ -46,8 +46,9 @@ echo "type = drive" >> ${PGBLITZ_DIR}/rclone/.${type}
 echo -n "token = {\"access_token\":${accesstoken}\"token_type\":\"Bearer\",\"refresh_token\":${refreshtoken}\"expiry\":\"${final}\"}" >> ${PGBLITZ_DIR}/rclone/.${type}
 echo "" >> ${PGBLITZ_DIR}/rclone/.${type}
 if [ "$type" == "sd" ] || [ "$type" == "sc" ]; then
-teamid=$(cat ${PGBLITZ_DIR}/rclone/pgclone.teamid)
-echo "team_drive = $teamid" >> ${PGBLITZ_DIR}/rclone/.sd; fi
+  teamid=$(cat ${PGBLITZ_DIR}/rclone/pgclone.teamid)
+  echo "team_drive = $teamid" >> ${PGBLITZ_DIR}/rclone/.sd;
+fi
 echo ""
 
 echo ${type} > ${PGBLITZ_DIR}/rclone/oauth.check
@@ -56,24 +57,27 @@ oauthcheck
 ## Adds Encryption to the Test Phase if Move or Blitz Encrypted is On
 if [[ "$transport" == "sc" || "$transport" == "gc" ]]; then
 
-if [ "$type" == "gd" ]; then entype="gc";
-else entype="sc"; fi
+  if [ "$type" == "gd" ]; then
+      entype="gc";
+  else 
+      entype="sc";
+  fi
 
-PASSWORD=`cat ${PGBLITZ_DIR}/rclone/pgclone.password`
-SALT=`cat ${PGBLITZ_DIR}/rclone/pgclone.salt`
-ENC_PASSWORD=`rclone obscure "$PASSWORD"`
-ENC_SALT=`rclone obscure "$SALT"`
+  PASSWORD=`cat ${PGBLITZ_DIR}/rclone/pgclone.password`
+  SALT=`cat ${PGBLITZ_DIR}/rclone/pgclone.salt`
+  ENC_PASSWORD=`rclone obscure "$PASSWORD"`
+  ENC_SALT=`rclone obscure "$SALT"`
 
-rm -rf ${PGBLITZ_DIR}/rclone/.${entype} 1>/dev/null 2>&1
-echo "" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "[$entype]" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "type = crypt" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "remote = $type:/encrypt" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "filename_encryption = standard" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "directory_name_encryption = true" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "password = $ENC_PASSWORD" >> ${PGBLITZ_DIR}/rclone/.${entype}
-echo "password2 = $ENC_SALT" >> ${PGBLITZ_DIR}/rclone/.${entype};
-fi
+  rm -rf ${PGBLITZ_DIR}/rclone/.${entype} 1>/dev/null 2>&1
+  echo "" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "[$entype]" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "type = crypt" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "remote = $type:/encrypt" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "filename_encryption = standard" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "directory_name_encryption = true" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "password = $ENC_PASSWORD" >> ${PGBLITZ_DIR}/rclone/.${entype}
+  echo "password2 = $ENC_SALT" >> ${PGBLITZ_DIR}/rclone/.${entype};
+  fi
 
 tee <<-EOF
 
@@ -117,7 +121,9 @@ Quitting? Type >>> exit
 EOF
   read -p '↘️  Token | PRESS [ENTER]: ' token < /dev/tty
 
-  if [[ "$token" = "exit" || "$token" == "Exit" || "$token" == "EXIT" ]]; then clonestart; fi
+  if [[ "$token" = "exit" || "$token" == "Exit" || "$token" == "EXIT" ]]; then
+    clonestart;
+  fi
   curl --request POST --data "code=${token}&client_id=${pgclonepublic}&client_secret=${pgclonesecret}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code" https://accounts.google.com/o/oauth2/token > ${PGBLITZ_DIR}/var/token.part1
   curl -H "GData-Version: 3.0" -H "Authorization: Bearer $(cat ${PGBLITZ_DIR}/var/token.part1 | grep access_token | awk '{ print $2 }' | cut -c2- | rev | cut -c3- | rev)" $gtype > $storage
 
@@ -135,8 +141,8 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-  A=0
-  while read p; do
+A=0
+while read p; do
   ((A++))
   name=$(sed -n ${A}p ${PGBLITZ_DIR}/rclone/teamdrive.name)
   echo "[$A] $p - $name"
@@ -157,14 +163,17 @@ signing in (and/or conducting a proper copy and paste of the token)!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-read -p '↘️  Acknowlege Info | Press [ENTER] ' typed < /dev/tty
-clonestart
+  read -p '↘️  Acknowlege Info | Press [ENTER] ' typed < /dev/tty
+  clonestart
 fi
 
 echo ""
 read -p '↘️  Type Number | Press [ENTER]: ' typed < /dev/tty
-if [[ "$typed" -ge "1" && "$typed" -le "$A" ]]; then a=b
-else teamdriveselect; fi
+if [[ "$typed" -ge "1" && "$typed" -le "$A" ]]; then
+  a=b
+else
+  teamdriveselect;
+fi
 
   name=$(sed -n ${typed}p ${PGBLITZ_DIR}/rclone/teamdrive.name)
   id=$(sed -n ${typed}p ${PGBLITZ_DIR}/rclone/teamdrive.id)
@@ -234,7 +243,7 @@ the Team Drive! Please complete this first!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-read -p '↘️  Acknowledge Info | Press [ENTER] ' typed < /dev/tty
-clonestart
+  read -p '↘️  Acknowledge Info | Press [ENTER] ' typed < /dev/tty
+  clonestart
 fi
 }
