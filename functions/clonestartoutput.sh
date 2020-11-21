@@ -318,7 +318,7 @@ elif [[ "$transport" == "sc" ]]; then
             publicsecretchecker
             passwordcheck
             tlabelchecker
-            echo "sc" > ${PGBLITZ_DIR}/rclone/deploy.version
+            echo "sd" > ${PGBLITZ_DIR}/rclone/deploy.version
             oauth ;;
         7 )
             publicsecretchecker
