@@ -10,6 +10,9 @@ set_location () {
         export PGBLITZ_DIR=/pg/pgclone
         export PGBLITZ_SRC=/pg/pgclone
     fi
+    echo "export export PGBLITZ_DIR=/pg/pgclone" > /etc/profile.d/pgblitz.sh
+    echo "export PGBLITZ_SRC=/pg/pgclone" >> /etc/profile.d/pgblitz.sh
+    chmod +x /etc/profile.d/pgblitz.sh
 }
 set_location
 ################################################################################
