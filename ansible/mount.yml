@@ -21,7 +21,7 @@
 
     - name: "Install - Service {{drive}}"
       template:
-        src: "${PGBLITZ_DIR}/mounts/drive.service"
+        src: "{{PGBLITZ_SRC}}/mounts/drive.service"
         dest: "/etc/systemd/system/{{drive}}.service"
         force: yes
       ignore_errors: yes

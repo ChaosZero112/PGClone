@@ -17,7 +17,7 @@
     - name: Install Union Script
       template:
         src: {{PGBLITZ_SRC}}/source/local.sh
-        dest: ${PGBLITZ_DIR}/rclone/pgunity.sh
+        dest: {{PGBLITZ_DIR}}/rclone/pgunity.sh
         force: yes
 
     - name: Install PGUnity Service

@@ -6,14 +6,14 @@
 # GNU:        General Public License v3.0
 ################################################################################
 [Unit]
-Description='PGBlitz.com Unity Service'
+Description='PGBlitz Unity Service'
 After=multi-user.target
 
 [Service]
 Type=simple
 User=0
 Group=0
-ExecStart=/bin/bash ${PGBLITZ_DIR}/rclone/pgunity.sh
+ExecStart=/bin/bash {{PGBLITZ_DIR}}/rclone/pgunity.sh
 ExecStop=/bin/fusermount -uz /pg/unity
 TimeoutStopSec=20
 KillMode=process
