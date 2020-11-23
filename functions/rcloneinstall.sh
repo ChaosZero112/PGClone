@@ -24,7 +24,7 @@ tee <<-EOF
 EOF
 sleep 1.5
 
-ansible-playbook ansible-playbook ${PGBLITZ_DIR}/ansible/rclone.yml
+ansible-playbook ansible-playbook ${PGBLITZ_SRC}/ansible/rclone.yml
 
 else
 
