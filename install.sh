@@ -95,7 +95,8 @@ EOF
       pyOpenSSL \
       requests \
       netaddr \
-      lxml
+      lxml \
+      sponge
   python3 -m pip install --disable-pip-version-check --upgrade ansible==2.10.3
 
   # Google SDK
